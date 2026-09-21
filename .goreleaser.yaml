@@ -13,14 +13,18 @@ checksum:
   name_template: checksums.txt
 changelog:
   use: github
-brews:
+homebrew_casks:
   - repository:
       owner: nobu666
       name: homebrew-tap
       token: "{{ .Env.HOMEBREW_TAP_GITHUB_TOKEN }}"
-    directory: Formula
     homepage: https://github.com/nobu666/claude-thinking-stats
     description: "Report how much of Claude Code's output was extended thinking, from local transcripts"
     license: MIT
-    test: |
-      system "#{bin}/claude-thinking-stats", "--help"
+    # The binaries are not signed/notarized, so drop the quarantine bit macOS puts on cask downloads.
+    hooks:
+      post:
+        install: |
+          if OS.mac?
+            system_command "/usr/bin/xattr", args: ["-dr", "com.apple.quarantine", "#{staged_path}/claude-thinking-stats"]
+          end

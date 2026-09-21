@@ -123,7 +123,7 @@ func TestFormatTableAndComma(t *testing.T) {
 	}
 	records, _ := parseRecords(strings.NewReader(lines))
 	out := formatTable(aggregate(records, "model"), "model")
-	if !strings.Contains(out, "claude-x") || !strings.Contains(out, "unk") {
+	if !strings.Contains(out, "claude-x") || !strings.Contains(out, "missing") {
 		t.Errorf("table missing columns:\n%s", out)
 	}
 	if formatTable(nil, "day") != "no responses in range" {

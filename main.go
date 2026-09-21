@@ -342,6 +342,12 @@ func formatTable(rows []Row, by string) string {
 		data[i] = []string{r.Key, comma(r.Requests), comma(r.Output), comma(r.Thinking),
 			fmt.Sprintf("%.1f", r.ThinkPct), fmt.Sprintf("%.1f", r.ZeroPct), comma(r.P50), comma(r.P95), comma(r.Unknown), r.Models}
 	}
+	if by == "model" { // the key already is the model; the models column would just repeat it
+		cols = cols[:len(cols)-1]
+		for i := range data {
+			data[i] = data[i][:len(data[i])-1]
+		}
+	}
 	widths := make([]int, len(cols))
 	for i, c := range cols {
 		widths[i] = len(c)

@@ -58,7 +58,7 @@ claude-thinking-stats ~/.claude/projects/-Users-me-work-app   # one project, or 
 | `zero%` | share of responses with **zero** thinking tokens — the quickest tell that a model or a plan is not thinking |
 | `p50` / `p95` | thinking tokens per response, median and 95th percentile |
 | `unk` | responses whose usage carried no `thinking_tokens` field at all (older Claude Code versions, models without thinking); counted as 0 |
-| `models` | models seen in the group |
+| `models` | models seen in the group; omitted with `-by model`, where the row key already is the model |
 
 `-since` takes `7d`, `30d`, a `YYYY-MM-DD` date (local time, so it lines up with the `day` rows), or `all`. `-by` takes `day`, `session`, `model`, `project`, `effort`. Flags accept one or two dashes.
 

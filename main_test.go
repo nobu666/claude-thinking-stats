@@ -129,6 +129,13 @@ func TestFormatTableAndComma(t *testing.T) {
 	if formatTable(nil, "day") != "no responses in range" {
 		t.Error("empty table")
 	}
+	byModel := formatTable(aggregate(records, "model"), "model")
+	if strings.Contains(byModel, "models") || strings.Count(byModel, "claude-x") != 1 {
+		t.Errorf("-by model should not repeat the model in a models column:\n%s", byModel)
+	}
+	if !strings.Contains(formatTable(aggregate(records, "day"), "day"), "models") {
+		t.Error("-by day should keep the models column")
+	}
 }
 
 func TestHugeLineDoesNotStopParsing(t *testing.T) {

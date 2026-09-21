@@ -1,0 +1,26 @@
+version: 2
+builds:
+  - env: [CGO_ENABLED=0]
+    goos: [darwin, linux, windows]
+    goarch: [amd64, arm64]
+    ldflags: -s -w
+archives:
+  - formats: [tar.gz]
+    format_overrides:
+      - goos: windows
+        formats: [zip]
+checksum:
+  name_template: checksums.txt
+changelog:
+  use: github
+brews:
+  - repository:
+      owner: nobu666
+      name: homebrew-tap
+      token: "{{ .Env.HOMEBREW_TAP_GITHUB_TOKEN }}"
+    directory: Formula
+    homepage: https://github.com/nobu666/claude-thinking-stats
+    description: "Report how much of Claude Code's output was extended thinking, from local transcripts"
+    license: MIT
+    test: |
+      system "#{bin}/claude-thinking-stats", "--help"

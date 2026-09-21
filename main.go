@@ -45,7 +45,7 @@ type Row struct {
 	ZeroPct  float64 `json:"zero_pct"`
 	P50      int     `json:"p50"`
 	P95      int     `json:"p95"`
-	Unknown  int     `json:"unknown"`
+	Unknown  int     `json:"missing"`
 	Models   string  `json:"models"`
 }
 
@@ -336,7 +336,7 @@ func formatTable(rows []Row, by string) string {
 	if len(rows) == 0 {
 		return "no responses in range"
 	}
-	cols := []string{by, "requests", "output", "thinking", "think%", "zero%", "p50", "p95", "unk", "models"}
+	cols := []string{by, "requests", "output", "thinking", "think%", "zero%", "p50", "p95", "missing", "models"}
 	data := make([][]string, len(rows))
 	for i, r := range rows {
 		data[i] = []string{r.Key, comma(r.Requests), comma(r.Output), comma(r.Thinking),
@@ -455,7 +455,7 @@ func main() {
 	}
 	var notes []string
 	if unknown > 0 {
-		notes = append(notes, fmt.Sprintf("%d responses had no thinking_tokens field (counted as 0; see the unk column)", unknown))
+		notes = append(notes, fmt.Sprintf("%d responses had no thinking_tokens field (counted as 0; see the missing column)", unknown))
 	}
 	if skipped > 0 {
 		notes = append(notes, fmt.Sprintf("%d unreadable lines/files skipped", skipped))

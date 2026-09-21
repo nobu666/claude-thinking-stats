@@ -6,11 +6,11 @@ Claude Code's extended-thinking plans give you a thinking budget, but nothing sh
 
 ```
 $ claude-thinking-stats
-day         requests   output  thinking  think%  zero%  p50    p95  unk  models
-2026-09-18        75   62,020    21,009    33.9   34.7  101  1,185    0  claude-opus-5,claude-sonnet-4-6
-2026-09-19       128  142,638    64,250    45.0   21.9  146  1,517    0  claude-sonnet-4-6
-2026-09-20        60   82,744    51,813    62.6   25.0  127  3,298    0  claude-opus-5,claude-sonnet-4-6
-2026-09-21       345  385,577   121,105    31.4   30.4  104  1,346    0  claude-sonnet-4-6
+day         requests   output  thinking  think%  zero%  p50    p95  missing  models
+2026-09-18        75   62,020    21,009    33.9   34.7  101  1,185        0  claude-fable-5-1,claude-opus-4-8,claude-opus-5,claude-sonnet-4-6
+2026-09-19       128  142,638    64,250    45.0   21.9  146  1,517        0  claude-fable-5-1,claude-sonnet-4-6
+2026-09-20        60   82,744    51,813    62.6   25.0  127  3,298        0  claude-fable-5-1,claude-opus-5,claude-sonnet-4-6
+2026-09-21       418  445,982   135,882    30.5   30.6  104  1,211        0  claude-fable-5-1,claude-sonnet-4-6
 ```
 
 No hooks, no API key, no dependencies. It never modifies anything.
@@ -57,7 +57,7 @@ claude-thinking-stats ~/.claude/projects/-Users-me-work-app   # one project, or 
 | `think%` | `thinking / output` |
 | `zero%` | share of responses with **zero** thinking tokens — the quickest tell that a model or a plan is not thinking |
 | `p50` / `p95` | thinking tokens per response, median and 95th percentile |
-| `unk` | responses whose usage carried no `thinking_tokens` field at all (older Claude Code versions, models without thinking); counted as 0 |
+| `missing` | responses whose usage carried no `thinking_tokens` field at all (older Claude Code versions, models without thinking); counted as 0 |
 | `models` | models seen in the group; omitted with `-by model`, where the row key already is the model |
 
 `-since` takes `7d`, `30d`, a `YYYY-MM-DD` date (local time, so it lines up with the `day` rows), or `all`. `-by` takes `day`, `session`, `model`, `project`, `effort`. Flags accept one or two dashes.
@@ -66,7 +66,7 @@ claude-thinking-stats ~/.claude/projects/-Users-me-work-app   # one project, or 
 
 Claude Code appends every API response to `~/.claude/projects/<project>/<session>.jsonl` (or `$CLAUDE_CONFIG_DIR/projects`). Each assistant line carries the API's `usage` block, and in recent Claude Code versions that block includes `output_tokens_details.thinking_tokens`. A response that spans several content blocks is written as several lines with the same `message.id`, so the script counts each id once. Claude Code's own `<synthetic>` placeholder messages (no API call) are skipped. Subagent transcripts live in `<session>/subagents/` and are only read with `--subagents`.
 
-The transcript format is not a documented interface. If a future Claude Code version moves the field, the `unk` column will fill up rather than the numbers silently going wrong.
+The transcript format is not a documented interface. If a future Claude Code version moves the field, the `missing` column will fill up rather than the numbers silently going wrong.
 
 ## What it does not do
 

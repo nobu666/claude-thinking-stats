@@ -15,6 +15,14 @@ day         requests   output  thinking  think%  zero%  p50    p95  unk  models
 
 No hooks, no API key, no dependencies. It never modifies anything.
 
+## When to reach for this
+
+- **You suspect Claude has stopped thinking as much.** Compare weeks with `-by day`; the `zero%` column is the fastest tell.
+- **You are choosing an effort level or a model.** `-by effort` and `-by model` show whether the setting you pay for actually changes how much thinking you get.
+- **You just hit a usage limit.** `-top 10` shows which responses burned the most thinking, so you can see what kind of work did it.
+
+If you call the API yourself, you do not need this: the usage block is in every response. If you want dollar amounts, this is not it either; it only counts tokens.
+
 ## Install
 
 ```
